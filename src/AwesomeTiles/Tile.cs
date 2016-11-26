@@ -427,5 +427,27 @@ namespace AwesomeTiles
                 this.Y * factor + factor - 1,
                 zoom);
         }
+        
+        /// <summary>
+        /// Inverts the X-coordinate.
+        /// </summary>
+        /// <returns></returns>
+        public Tile InvertX()
+        {
+            int n = (int)System.Math.Floor(System.Math.Pow(2, this.Zoom));
+
+            return new Tile(n - this.X - 1, this.Y, this.Zoom);
+        }
+
+        /// <summary>
+        /// Inverts the Y-coordinate.
+        /// </summary>
+        /// <returns></returns>
+        public Tile InvertY()
+        {
+            int n = (int)System.Math.Floor(System.Math.Pow(2, this.Zoom));
+
+            return new Tile(this.X, n - this.Y - 1, this.Zoom);
+        }
     }
 }
