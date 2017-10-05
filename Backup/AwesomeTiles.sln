@@ -1,13 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4373FD06-D391-4A50-A34B-C044270F2A05}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3FABD819-BCB6-41D5-A4C9-DA7E8C2A38DF}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AwesomeTiles", "src\AwesomeTiles\AwesomeTiles.csproj", "{FE7497C7-DF68-46F4-A7DE-E4FFB9E9731C}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AwesomeTiles", "src\AwesomeTiles\AwesomeTiles.xproj", "{FE7497C7-DF68-46F4-A7DE-E4FFB9E9731C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,8 +28,5 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FE7497C7-DF68-46F4-A7DE-E4FFB9E9731C} = {4373FD06-D391-4A50-A34B-C044270F2A05}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6BA36BCC-F8B3-4E0C-925C-BCB1FCD069C9}
 	EndGlobalSection
 EndGlobal

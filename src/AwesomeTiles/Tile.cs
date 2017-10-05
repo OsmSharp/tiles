@@ -29,7 +29,7 @@ namespace AwesomeTiles
     /// </summary>
     public class Tile
     {
-        private ulong _id;
+        private readonly ulong _id;
 
         /// <summary>
         /// Creates a new tile from a given id.
@@ -39,7 +39,7 @@ namespace AwesomeTiles
         {
             _id = id;
 
-            Tile tile = Tile.CalculateTile(id);
+            var tile = Tile.CalculateTile(id);
             this.X = tile.X;
             this.Y = tile.Y;
             this.Zoom = tile.Zoom;
@@ -55,7 +55,7 @@ namespace AwesomeTiles
             this.Y = y;
             this.Zoom = zoom;
 
-            _id = Tile.CalculateTileId(zoom, x, y);
+            _id = CalculateTileId(zoom, x, y);
             this.CalculateBounds();
         }
 
@@ -121,13 +121,7 @@ namespace AwesomeTiles
         /// <summary>
         /// Gets the parent tile.
         /// </summary>
-        public Tile Parent
-        {
-            get
-            {
-                return new Tile(this.X / 2, this.Y / 2, this.Zoom - 1);
-            }
-        }
+        public Tile Parent => new Tile(this.X / 2, this.Y / 2, this.Zoom - 1);
 
         /// <summary>
         /// Returns a hashcode for this tile position.
@@ -173,84 +167,49 @@ namespace AwesomeTiles
         /// <returns></returns>
         private static ulong CalculateTileId(int zoom)
         {
-            if (zoom == 0)
-            { // zoom level 0: {0}.
-                return 0;
-            }
-            else if (zoom == 1)
+            switch (zoom)
             {
-                return 1;
-            }
-            else if (zoom == 2)
-            {
-                return 5;
-            }
-            else if (zoom == 3)
-            {
-                return 21;
-            }
-            else if (zoom == 4)
-            {
-                return 85;
-            }
-            else if (zoom == 5)
-            {
-                return 341;
-            }
-            else if (zoom == 6)
-            {
-                return 1365;
-            }
-            else if (zoom == 7)
-            {
-                return 5461;
-            }
-            else if (zoom == 8)
-            {
-                return 21845;
-            }
-            else if (zoom == 9)
-            {
-                return 87381;
-            }
-            else if (zoom == 10)
-            {
-                return 349525;
-            }
-            else if (zoom == 11)
-            {
-                return 1398101;
-            }
-            else if (zoom == 12)
-            {
-                return 5592405;
-            }
-            else if (zoom == 13)
-            {
-                return 22369621;
-            }
-            else if (zoom == 14)
-            {
-                return 89478485;
-            }
-            else if (zoom == 15)
-            {
-                return 357913941;
-            }
-            else if (zoom == 16)
-            {
-                return 1431655765;
-            }
-            else if (zoom == 17)
-            {
-                return 5726623061;
-            }
-            else if (zoom == 18)
-            {
-                return 22906492245;
+                case 0: // zoom level 0: {0}.
+                    return 0;
+                case 1:
+                    return 1;
+                case 2:
+                    return 5;
+                case 3:
+                    return 21;
+                case 4:
+                    return 85;
+                case 5:
+                    return 341;
+                case 6:
+                    return 1365;
+                case 7:
+                    return 5461;
+                case 8:
+                    return 21845;
+                case 9:
+                    return 87381;
+                case 10:
+                    return 349525;
+                case 11:
+                    return 1398101;
+                case 12:
+                    return 5592405;
+                case 13:
+                    return 22369621;
+                case 14:
+                    return 89478485;
+                case 15:
+                    return 357913941;
+                case 16:
+                    return 1431655765;
+                case 17:
+                    return 5726623061;
+                case 18:
+                    return 22906492245;
             }
 
-            ulong size = (ulong)System.Math.Pow(2, 2 * (zoom - 1));
+            var size = (ulong)Math.Pow(2, 2 * (zoom - 1));
             var tileId = Tile.CalculateTileId(zoom - 1) + size;
             return tileId;
         }
@@ -264,8 +223,8 @@ namespace AwesomeTiles
         /// <returns></returns>
         private static ulong CalculateTileId(int zoom, int x, int y)
         {
-            ulong id = Tile.CalculateTileId(zoom);
-            long width = (long)System.Math.Pow(2, zoom);
+            var id = Tile.CalculateTileId(zoom);
+            var width = (long)System.Math.Pow(2, zoom);
             return id + (ulong)x + (ulong)(y * width);
         }
 
@@ -277,7 +236,7 @@ namespace AwesomeTiles
         private static Tile CalculateTile(ulong id)
         {
             // find out the zoom level first.
-            int zoom = 0;
+            var zoom = 0;
             if (id > 0)
             { // only if the id is at least at zoom level 1.
                 while (id >= Tile.CalculateTileId(zoom))
@@ -289,10 +248,10 @@ namespace AwesomeTiles
             }
 
             // calculate the x-y.
-            ulong local = id - Tile.CalculateTileId(zoom);
-            ulong width = (ulong)System.Math.Pow(2, zoom);
-            int x = (int)(local % width);
-            int y = (int)(local / width);
+            var local = id - Tile.CalculateTileId(zoom);
+            var width = (ulong)System.Math.Pow(2, zoom);
+            var x = (int)(local % width);
+            var y = (int)(local / width);
 
             return new Tile(x, y, zoom);
         }
@@ -300,10 +259,7 @@ namespace AwesomeTiles
         /// <summary>
         /// Returns the id of this tile.
         /// </summary>
-        public ulong Id
-        {
-            get { return _id; }
-        }
+        public ulong Id => _id;
 
         /// <summary>
         /// Returns true if this tile is valid.
@@ -434,7 +390,7 @@ namespace AwesomeTiles
         /// <returns></returns>
         public Tile InvertX()
         {
-            int n = (int)System.Math.Floor(System.Math.Pow(2, this.Zoom));
+            var n = (int)System.Math.Floor(System.Math.Pow(2, this.Zoom));
 
             return new Tile(n - this.X - 1, this.Y, this.Zoom);
         }
@@ -445,7 +401,7 @@ namespace AwesomeTiles
         /// <returns></returns>
         public Tile InvertY()
         {
-            int n = (int)System.Math.Floor(System.Math.Pow(2, this.Zoom));
+            var n = (int)System.Math.Floor(System.Math.Pow(2, this.Zoom));
 
             return new Tile(this.X, n - this.Y - 1, this.Zoom);
         }
